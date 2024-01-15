@@ -6,7 +6,7 @@ import random
 
 async def wait_random(max_delay=10):
     """random delay between 0 and max_delay"""
-    val = 10 * random.random()
+    val = max_delay * random.random()
 
     await asyncio.sleep(val)
 
