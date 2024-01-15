@@ -12,5 +12,6 @@ async def wait_n(n: int, max_delay:int) -> List[float]:
     for i in range(n):
         out.append(await wait_random(max_delay))
 
+    out = sorted(out)
     return out
 
