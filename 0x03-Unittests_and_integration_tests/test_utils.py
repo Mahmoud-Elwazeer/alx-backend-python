@@ -16,6 +16,15 @@ class TestAccessNestedMap(unittest.TestCase):
         """test accesdd nested map"""
         self.assertEqual(access_nested_map({"a": 1}, ("a",)), 1)
 
+    @parameterized.expand([
+        ({}, ("a",)),
+        ({"a": 1}, ("a", "b"))
+    ])
+    def test_access_nested_map_exception(self, nested_map, path):
+        """test accesdd nested map exception"""
+        with self.assertRaises(KeyError):
+            access_nested_map({}, ("a",))
+
 
 if __name__ == '__main__':
     unittest.main()
