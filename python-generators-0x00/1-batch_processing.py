@@ -26,4 +26,6 @@ def batch_processing(batch_size):
     """
     for batch in stream_users_in_batches(batch_size):
         filtered_batch = (user for user in batch if float(user[3]) > 25)
+        for user in filtered_batch:
+            print({"user Id": user[0], "Name": user[1], "Email": user[2], "Age": float(user[3]) })
         return filtered_batch
