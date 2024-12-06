@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 
 import sqlite3
-import uuid
 import csv
 
 # Function to set up the database (create users table and insert sample data)
@@ -12,7 +11,7 @@ def setup_database():
     # Create the users table
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS users (
-            user_id TEXT PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
             email TEXT NOT NULL UNIQUE,
             age REAL NOT NULL
@@ -30,7 +29,6 @@ def insert_data(data):
         with open(data, 'r') as file:
             csv_reader = csv.DictReader(file)
             for row in csv_reader:
-                user_id = str(uuid.uuid4())  # Generate a UUID
                 name = row['name']
                 email = row['email']
                 age = float(row['age'])  # Convert age to a float
@@ -40,9 +38,9 @@ def insert_data(data):
                 if cursor.fetchone()[0] == 0:  # No existing record found
                     # Insert the new user
                     cursor.execute("""
-                        INSERT INTO users (user_id, name, email, age)
-                        VALUES (?, ?, ?, ?)
-                    """, (user_id, name, email, age))
+                        INSERT INTO users (name, email, age)
+                        VALUES (?, ?, ?)
+                    """, ( name, email, age))
         
         connection.commit()  # Commit the transaction
         print("Data inserted successfully.")
