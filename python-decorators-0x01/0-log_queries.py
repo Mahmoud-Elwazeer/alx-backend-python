@@ -12,6 +12,8 @@ def log_message(message):
     print(f"{timestamp} - Executing query: {message}")
 
 def log_queries(func):
+    """Logging database Queries"""
+    @functools.wraps(func)
     def wrapper(*args, **kwargs):
         query = kwargs.get('query', args[0] if args else None)
         log_message(query)
