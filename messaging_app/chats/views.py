@@ -3,7 +3,17 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from .models import Conversation, Message, User
 from .serializers import ConversationSerializer, MessageSerializer
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+from .permissions import IsOwnerOrReadOnly
 
+
+class UserMessagesView(APIView):
+    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
+
+    def get(self, request):
+        messages = Message.objects.filter(user_id=request.user.id)
+        return Response({'messages': messages})
 
 class ConversationViewSet(viewsets.ModelViewSet):
     queryset = Conversation.objects.prefetch_related('participants', 'messages')
